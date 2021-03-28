@@ -21,18 +21,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import Foundation
+import struct Foundation.URL
+import Fuzi
 
 /// HTML Image class, which represents the <img> element in the DOM.
-public class HTMLImage : HTMLElement, HTMLFetchable {
-    
-    //========================================
-    // MARK: Initializer
-    //========================================
-    
-    public required init?(element: AnyObject, XPathQuery: String? = nil) {
-        super.init(element: element, XPathQuery: XPathQuery)
-    }
+public class HTMLImage : HTMLParserElement, HTMLFetchable {
     
     /// Returns the value of the src attribute of the image.
     public var source : String? {
@@ -54,7 +47,7 @@ public class HTMLImage : HTMLElement, HTMLFetchable {
     // MARK: Overrides
     //========================================
     
-    internal override class func createXPathQuery(_ parameters: String) -> String {
+    internal class func createXPathQuery(_ parameters: String) -> String {
         return "//img\(parameters)"
     }
 }

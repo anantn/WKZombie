@@ -163,7 +163,8 @@ class Tests: XCTestCase {
         
         waitForExpectations(timeout: 20.0, handler: nil)
     }
-    
+
+    #if os(iOS)
     func testSnapshot() {
         let expectation = self.expectation(description: "Snapshot Test Done.")
 
@@ -186,6 +187,7 @@ class Tests: XCTestCase {
         
         waitForExpectations(timeout: 20.0, handler: nil)
     }
+    #endif
     
     func testSwap() {
         let expectation = self.expectation(description: "iframe Button Test Done.")
@@ -214,7 +216,7 @@ class Tests: XCTestCase {
         let url = URL(string: "https://httpbin.org/basic-auth/user/passwd")!
         browser.open(then: .wait(2.0))(url)
         >>> browser.get(by: .XPathQuery("//body"))
-        === { (result: HTMLElement?) in
+        === { (result: HTMLParserElement?) in
             XCTAssertNotNil(result, "Basic Authentication Test Failed - No Body.")
             XCTAssertTrue(result!.hasChildren(), "Basic Authentication Test Failed - No JSON.")
             expectation.fulfill()
@@ -246,8 +248,8 @@ class Tests: XCTestCase {
     //========================================
     
     private func startURL() -> URL {
-        let bundle = Bundle(for: type(of: self))
-        let testPage = bundle.url(forResource: "HTMLTestPage", withExtension: "html")!
+        let bundle = Bundle.module
+        let testPage = bundle.url(forResource: "HTMLTestPage", withExtension: "html", subdirectory: "Resources/HTML")!
         return testPage
     }
 }

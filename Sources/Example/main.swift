@@ -22,7 +22,7 @@ func handleSuccess(result: [HTMLTableRow]?) {
     print("PROVISIONING PROFILES:")
     print("======================")
     
-    if let columns = result?.flatMap({ $0.columns?.first }) {
+    if let columns = result?.compactMap({ $0.columns?.first }) {
         for column in columns {
             if let element = column.children()?.first as HTMLElement?, let text = element.text {
                 print(text)
@@ -52,4 +52,4 @@ func handleError(error: ActionError) {
 
 // Keep script running until actions are finished
 let theRL = RunLoop.current
-while shouldKeepRunning && theRL.run(mode: .defaultRunLoopMode, before: .distantFuture) { }
+while shouldKeepRunning && theRL.run(mode: .default, before: .distantFuture) { }

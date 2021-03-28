@@ -28,15 +28,15 @@ public class HTMLLink : HTMLRedirectable, HTMLFetchable {
     
     /// Returns the value of the href attribute of the link.
     public var href : String? {
-        return text
+        return objectForKey("href")
     }
     
     /// Returns the link text.
     public var linkText : String? {
-        return content
+        return text
     }
     
-    override public var description : String {
+    public var description : String {
         return href ?? ""
     }
     
@@ -68,7 +68,7 @@ public class HTMLLink : HTMLRedirectable, HTMLFetchable {
     // MARK: Overrides
     //========================================
     
-    internal override class func createXPathQuery(_ parameters: String) -> String {
+    internal class func createXPathQuery(_ parameters: String) -> String {
         return "//a\(parameters)/@href"
     }
 }

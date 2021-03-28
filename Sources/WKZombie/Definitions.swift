@@ -24,7 +24,7 @@
 import Foundation
 
 
-public enum SearchType<T: HTMLElement> {
+public enum SearchType<T: HTMLParserElement> {
     /**
      * Returns an element that matches the specified id.
      */

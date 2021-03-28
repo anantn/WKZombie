@@ -21,8 +21,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import Foundation
-import hpple
+import struct Foundation.Data
+import struct Foundation.URL
+import Fuzi
 
 /// Base class for the HTMLParser and JSONParser.
 public class Parser : CustomStringConvertible {
@@ -54,74 +55,51 @@ public class Parser : CustomStringConvertible {
 /// A HTML Parser class, which wraps the functionality of the TFHpple class.
 public class HTMLParser : Parser {
     
-    fileprivate var doc : TFHpple?
+    fileprivate var doc : HTMLDocument?
     
     required public init(data: Data, url: URL? = nil) {
+        self.data = data
         super.init(data: data, url: url)
-        self.doc = TFHpple(htmlData: data)
+        self.doc = try? HTMLDocument(data: data)
     }
     
-    public func searchWithXPathQuery(_ xPathOrCSS: String) -> [AnyObject]? {
-        return doc?.search(withXPathQuery: xPathOrCSS) as [AnyObject]?
+    public func searchWithXPathQuery(_ xPathOrCSS: String) -> [XMLElement]? {
+        return doc?.xpath(xPathOrCSS).compactMap({$0})
     }
     
-    public var data: Data? {
-        return doc?.data
-    }
+    public var data: Data
     
     override public var description: String {
-        return (NSString(data: doc?.data ?? Data(), encoding: String.Encoding.utf8.rawValue) ?? "") as String
+        return doc?.body?.description ?? ""
     }
 }
 
 /// A HTML Parser Element class, which wraps the functionality of the TFHppleElement class.
-public class HTMLParserElement : CustomStringConvertible {
-    fileprivate var element : TFHppleElement?
+public class HTMLParserElement : HTMLElement {
+    
+    public let element : XMLElement?
+    public let attributes: [String : String]
     public internal(set) var XPathQuery : String?
     
-    required public init?(element: AnyObject, XPathQuery : String? = nil) {
-        if let element = element as? TFHppleElement {
-            self.element = element
-            self.XPathQuery = XPathQuery
-        } else {
-            return nil
+    public required init(element: XMLElement, XPathQuery: String?) {
+        self.element = element
+        self.XPathQuery = XPathQuery
+        
+        var attr: [String : String] = [:]
+        element.attributes.forEach { key, value in
+            attr[key.lowercased()] = value
         }
+        self.attributes = attr
     }
     
-    public var innerContent : String? {
-        return element?.raw as String?
-    }
-    
-    public var text : String? {
-        return element?.text() as String?
-    }
-    
-    public var content : String? {
-        return element?.content as String?
-    }
-    
-    public var tagName : String? {
-        return element?.tagName as String?
-    }
-    
-    public func objectForKey(_ key: String) -> String? {
-        return element?.object(forKey: key.lowercased()) as String?
-    }
-    
-    public func childrenWithTagName<T: HTMLElement>(_ tagName: String) -> [T]? {
-        return element?.children(withTagName: tagName).flatMap { T(element: $0 as AnyObject) }
-    }
-    
-    public func children<T: HTMLElement>() -> [T]? {
-        return element?.children.flatMap { T(element:$0 as AnyObject) }
-    }
-    
-    public func hasChildren() -> Bool {
-        return element?.hasChildren() ?? false
-    }
-    
-    public var description : String {
-        return element?.raw ?? ""
+    public required init(element: XMLElement) {
+        self.element = element
+        
+        var attr: [String : String] = [:]
+        element.attributes.forEach { key, value in
+            attr[key.lowercased()] = value
+        }
+        self.attributes = attr
     }
 }
 

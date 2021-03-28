@@ -24,49 +24,54 @@
 import Foundation
 
 /// HTML Table class, which represents the "table" element in the DOM.
-public class HTMLTable : HTMLElement {
+public class HTMLTable : HTMLParserElement {
     
     /// Returns all row elements within this table
     public var rows : [HTMLTableRow]? {
-        let rows : [HTMLTableRow]? = children()
-        return (rows?.first?.tagName == "tbody") ? rows?.first?.children() : rows
+        let rows : [HTMLTableRow]? = children(as: HTMLTableRow.self)
+        if let row = rows?.first,
+           row.tagName == "tbody" {
+            return row.children(as: HTMLTableRow.self)
+        } else {
+            return rows
+        }
     }
         
     //========================================
     // MARK: Overrides
     //========================================
 
-    internal override class func createXPathQuery(_ parameters: String) -> String {
+    internal class func createXPathQuery(_ parameters: String) -> String {
         return "//table\(parameters)"
     }
 }
 
 
 /// HTML Table Row Class, which represents the <tr> element in the DOM.
-public class HTMLTableRow : HTMLElement {
+public class HTMLTableRow : HTMLParserElement {
     
     /// Returns all columns within this row.
     public var columns : [HTMLTableColumn]? {
-        return children()
+        return children(as: HTMLTableColumn.self)
     }
     
     //========================================
     // MARK: Overrides
     //========================================
     
-    internal override class func createXPathQuery(_ parameters: String) -> String {
+    internal class func createXPathQuery(_ parameters: String) -> String {
         return "//tr\(parameters)"
     }
 }
 
 /// HTML Table Column class, which represents the <td> element in the DOM.
-public class HTMLTableColumn : HTMLElement {
+public class HTMLTableColumn : HTMLParserElement {
     
     //========================================
     // MARK: Overrides
     //========================================
     
-    internal override class func createXPathQuery(_ parameters: String) -> String {
+    internal class func createXPathQuery(_ parameters: String) -> String {
         return "//td\(parameters)"
     }
 }

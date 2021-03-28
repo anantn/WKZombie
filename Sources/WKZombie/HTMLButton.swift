@@ -15,7 +15,7 @@ public class HTMLButton : HTMLRedirectable {
     // MARK: Overrides
     //========================================
     
-    internal override class func createXPathQuery(_ parameters: String) -> String {
+    internal class func createXPathQuery(_ parameters: String) -> String {
         return "//button\(parameters)"
     }
     

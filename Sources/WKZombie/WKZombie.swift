@@ -437,8 +437,8 @@ public extension WKZombie {
      
      - returns: The WKZombie Action.
      */
-    public func execute<T: HTMLPage>(_ script: JavaScript) -> (_ page : T) -> Action<JavaScriptResult> {
-        return { [unowned self] (page : T) -> Action<JavaScriptResult> in
+    public func execute(_ script: JavaScript) -> (_ page : HTMLPage) -> Action<JavaScriptResult> {
+        return { [unowned self] (page : HTMLPage) -> Action<JavaScriptResult> in
             return self.execute(script)
         }
     }

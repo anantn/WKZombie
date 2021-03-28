@@ -9,15 +9,7 @@
 import Foundation
 
 /// Base class for redirectable HTML elements (e.g. HTMLLink, HTMLButton).
-public class HTMLRedirectable : HTMLElement {
-
-    //========================================
-    // MARK: Initializer
-    //========================================
-    
-    public required init?(element: AnyObject, XPathQuery: String? = nil) {
-        super.init(element: element, XPathQuery: XPathQuery)
-    }
+public class HTMLRedirectable : HTMLParserElement {
     
     //========================================
     // MARK: Link Redirectable Script

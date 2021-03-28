@@ -113,7 +113,7 @@ internal class RenderOperation : Operation {
     func wait(_ condition: () -> Bool) {
         let updateInterval : TimeInterval = 0.1
         var loopUntil = Date(timeIntervalSinceNow: updateInterval)
-        while condition() == false && RunLoop.current.run(mode: RunLoopMode.defaultRunLoopMode, before: loopUntil) {
+        while condition() == false && RunLoop.current.run(mode: .default, before: loopUntil) {
             loopUntil = Date(timeIntervalSinceNow: updateInterval)
             Logger.log(".", lineBreak: false)
         }
@@ -149,7 +149,7 @@ internal class RenderOperation : Operation {
     fileprivate func startTimeout() {
         stopRunLoop = false
         timeout = Timer(timeInterval: timeoutInSeconds, target: self, selector: #selector(RenderOperation.cancel), userInfo: nil, repeats: false)
-        RunLoop.current.add(timeout!, forMode: RunLoopMode.defaultRunLoopMode)
+        RunLoop.current.add(timeout!, forMode: .default)
     }
     
     fileprivate func stopTimeout() {

@@ -21,13 +21,22 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import Foundation
-
 /// The HTMLElement class is a base class, which can represent every element 
 /// in the DOM, e.g. "img", "a", "form" etc.
-public class HTMLElement : HTMLParserElement {
+
+import Fuzi
+
+public protocol HTMLElement : AnyObject, CustomStringConvertible {
+    var element : XMLElement? { get }
+    var XPathQuery : String? { get }
+    var attributes : [ String : String ] { get }
     
-    internal class func createXPathQuery(_ parameters: String) -> String {
+    init(element: XMLElement)
+    init(element: XMLElement, XPathQuery: String?)
+}
+
+extension HTMLElement {
+    internal static func createXPathQuery(_ parameters: String) -> String {
         return "//*\(parameters)"
     }
     
@@ -36,5 +45,42 @@ public class HTMLElement : HTMLParserElement {
             return "getElementByXpath(\"\(query)\").setAttribute(\"\(key)\", \"\(value ?? "")\");"
         }
         return nil
+    }
+}
+
+extension HTMLElement {
+    public var text : String? {
+        return element?.stringValue
+    }
+    
+    public var tagName : String? {
+        return element?.tag
+    }
+    
+    public func objectForKey(_ key: String) -> String? {
+        return element?.attributes[key.lowercased()]
+    }
+    
+    public func childrenWithTagName<T: HTMLElement>(_ tagName: String) -> [T]? {
+        return element?.children(tag: tagName).compactMap { T(element: $0) }
+    }
+    
+    public func children() -> [HTMLParserElement]? {
+        return children(as: HTMLParserElement.self)
+    }
+    
+    public func children<T: HTMLElement>(as HTMLElementType: T.Type) -> [T]? {
+        return element?.children.compactMap { T(element: $0) }
+    }
+    
+    public func hasChildren() -> Bool {
+        if let _ = self.element?.firstChild(css: "") {
+            return true
+        }
+        return false
+    }
+    
+    public var description : String {
+        return element?.description ?? ""
     }
 }

@@ -21,19 +21,22 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import Foundation
+import Fuzi
 
 /// HTML Form class, which represents the <form> element in the DOM.
-public class HTMLForm : HTMLElement {
+public class HTMLForm : HTMLParserElement {
 
     /// All inputs fields (keys and values) of this form.
     public fileprivate(set) var inputElements = [String : String]()
     
-    required public init?(element: AnyObject, XPathQuery: String? = nil) {
+    public required init(element: XMLElement, XPathQuery: String?) {
         super.init(element: element, XPathQuery: XPathQuery)
-        if let element = HTMLElement(element: element, XPathQuery: XPathQuery) {
-            retrieveAllInputs(element)
-        }
+        retrieveAllInputs(HTMLParserElement(element: element, XPathQuery: XPathQuery))
+    }
+    
+    public required init(element: XMLElement) {
+        super.init(element: element)
+        retrieveAllInputs(HTMLParserElement(element: element, XPathQuery: XPathQuery))
     }
     
     /// Returns the value for the name attribute.
@@ -79,7 +82,7 @@ public class HTMLForm : HTMLElement {
     // MARK: Overrides
     //========================================
     
-    internal override class func createXPathQuery(_ parameters: String) -> String {
+    internal class func createXPathQuery(_ parameters: String) -> String {
         return "//form\(parameters)"
     }
     
@@ -87,13 +90,13 @@ public class HTMLForm : HTMLElement {
     // MARK: Private Methods
     //========================================
     
-    fileprivate func retrieveAllInputs(_ element: HTMLElement) {
-        if let tagName = element.tagName as String? , tagName == "input" {
+    fileprivate func retrieveAllInputs(_ element: HTMLParserElement) {
+        if let tagName = element.tagName, tagName == "input" {
             if let name = element.objectForKey("name") {
                 inputElements[name] = element.objectForKey("value")
             }
         }
-        if let children = element.children() as [HTMLElement]? , children.count > 0 {
+        if let children = element.children() , children.count > 0 {
             for child in children {
                 retrieveAllInputs(child)
             }

@@ -1,5 +1,5 @@
 //
-// WKZombie.h
+// TestAppDelegate.swift
 //
 // Copyright (c) 2016 Mathias Koehnke (http://www.mathiaskoehnke.de)
 //
@@ -21,13 +21,21 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <Foundation/Foundation.h>
+import UIKit
 
-//! Project version number for WKZombie.
-FOUNDATION_EXPORT double WKZombieVersionNumber;
+@UIApplicationMain
+class AppDelegate: UIResponder, UIApplicationDelegate {
 
-//! Project version string for WKZombie.
-FOUNDATION_EXPORT const unsigned char WKZombieVersionString[];
+    var window: UIWindow?
+    var viewController : UIViewController?
 
-// In this header, you should import all the public headers of your framework using statements like #import <WKZombie/PublicHeader.h>
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
+        window = UIWindow(frame: UIScreen.main.bounds)
+        window?.backgroundColor = .white
+        viewController = UIViewController(nibName: nil, bundle: nil)
+        window?.rootViewController = viewController
+        window?.makeKeyAndVisible()
+        return true
+    }
+}
 
