@@ -24,34 +24,37 @@
 import Foundation
 
 /// HTMLPage class, which represents the DOM of a HTML page.
-public class HTMLPage : HTMLParser, Page {
-    
+public class HTMLPage: HTMLParser, Page {
     //========================================
+
     // MARK: Initializer
+
     //========================================
-    
+
     /**
-    Returns a HTML page instance for the specified HTML DOM data.
-    
-    - parameter data: The HTML DOM data.
-    - parameter url:  The URL of the page.
-    
-    - returns: A HTML page.
-    */
+     Returns a HTML page instance for the specified HTML DOM data.
+
+     - parameter data: The HTML DOM data.
+     - parameter url:  The URL of the page.
+
+     - returns: A HTML page.
+     */
     public static func pageWithData(_ data: Data?, url: URL?) -> Page? {
         if let data = data {
             return HTMLPage(data: data, url: url)
         }
         return nil
     }
-    
+
     //========================================
+
     // MARK: Find Elements
+
     //========================================
-    
+
     public func findElements<T: HTMLElement>(_ searchType: SearchType<T>) -> Result<[T]> {
         let query = searchType.xPathQuery()
-        if let parsedObjects = searchWithXPathQuery(query) , parsedObjects.count > 0 {
+        if let parsedObjects = searchWithXPathQuery(query), parsedObjects.count > 0 {
             return resultFromOptional(parsedObjects.compactMap { T(element: $0, XPathQuery: query) }, error: .notFound)
         }
         return Result.error(.notFound)

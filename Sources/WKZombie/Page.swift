@@ -29,13 +29,11 @@ import Foundation
 public protocol Page {
     /**
      Returns a (HTML or JSON) page instance for the specified data.
-     
+
      - parameter data: The encoded data.
      - parameter url:  The URL of the page.
-     
+
      - returns: A HTML or JSON page.
      */
     static func pageWithData(_ data: Data?, url: URL?) -> Page?
 }
-
-

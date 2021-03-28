@@ -25,28 +25,31 @@ import struct Foundation.URL
 import Fuzi
 
 /// HTML Image class, which represents the <img> element in the DOM.
-public class HTMLImage : HTMLParserElement, HTMLFetchable {
-    
+public class HTMLImage: HTMLParserElement, HTMLFetchable {
     /// Returns the value of the src attribute of the image.
-    public var source : String? {
+    public var source: String? {
         return objectForKey("src")
     }
 
     //========================================
+
     // MARK: HTMLFetchable Protocol
+
     //========================================
-    
-    public var fetchURL : URL? {
+
+    public var fetchURL: URL? {
         if let source = source {
             return URL(string: source)
         }
         return nil
     }
-    
+
     //========================================
+
     // MARK: Overrides
+
     //========================================
-    
+
     internal class func createXPathQuery(_ parameters: String) -> String {
         return "//img\(parameters)"
     }

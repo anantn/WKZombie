@@ -23,9 +23,9 @@
 
 import Foundation
 
-public protocol ErrorType { }
+public protocol ErrorType {}
 
-public enum NoError: ErrorType { }
+public enum NoError: ErrorType {}
 
 public enum ActionError: ErrorType {
     case networkRequestFailure
@@ -33,10 +33,10 @@ public enum ActionError: ErrorType {
     case parsingFailure
     case transformFailure
     case snapshotFailure
-    
+
     internal struct Static {
-        static let DefaultStatusCodeSuccess : Int = 200
-        static let DefaultStatusCodeError : Int = 500
+        static let DefaultStatusCodeSuccess: Int = 200
+        static let DefaultStatusCodeError: Int = 500
     }
 }
 

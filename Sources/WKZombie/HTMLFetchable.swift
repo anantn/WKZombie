@@ -25,18 +25,22 @@ import Foundation
 import ObjectiveC
 
 //==========================================
+
 // MARK: Fetchable Protocol
+
 //==========================================
 
 public protocol HTMLFetchable {
-    var fetchURL : URL? { get }
+    var fetchURL: URL? { get }
     func fetchedContent<T: HTMLFetchableContent>() -> T?
 }
 
 private var WKZFetchedDataKey: UInt8 = 0
 
 //==========================================
+
 // MARK: Fetchable Default Implementation
+
 //==========================================
 
 extension HTMLFetchable {
@@ -48,8 +52,8 @@ extension HTMLFetchable {
             objc_setAssociatedObject(self, &WKZFetchedDataKey, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
         }
     }
-    
-    public func fetchedContent<T : HTMLFetchableContent>() -> T? {
+
+    public func fetchedContent<T: HTMLFetchableContent>() -> T? {
         if let fetchedData = fetchedData {
             switch T.instanceFromData(fetchedData) {
             case .success(let value): return value as? T
@@ -60,9 +64,10 @@ extension HTMLFetchable {
     }
 }
 
-
 //==========================================
+
 // MARK: FetchableContentType Protocol
+
 //==========================================
 
 public protocol HTMLFetchableContent {
@@ -71,34 +76,37 @@ public protocol HTMLFetchableContent {
 }
 
 //==========================================
+
 // MARK: Supported Fetchable Content Types
+
 //==========================================
 
 #if os(iOS)
-    import UIKit
-    extension UIImage : HTMLFetchableContent {
-        public typealias ContentType = UIImage
-        public static func instanceFromData(_ data: Data) -> Result<ContentType> {
-            if let image = UIImage(data: data) {
-                return Result.success(image)
-            }
-            return Result.error(.transformFailure)
+import UIKit
+extension UIImage: HTMLFetchableContent {
+    public typealias ContentType = UIImage
+    public static func instanceFromData(_ data: Data) -> Result<ContentType> {
+        if let image = UIImage(data: data) {
+            return Result.success(image)
         }
+        return Result.error(.transformFailure)
     }
+}
+
 #elseif os(OSX)
-    import Cocoa
-    extension NSImage : HTMLFetchableContent {
-        public typealias ContentType = NSImage
-        public static func instanceFromData(_ data: Data) -> Result<ContentType> {
-            if let image = NSImage(data: data) {
-                return Result.success(image)
-            }
-            return Result.error(.transformFailure)
+import Cocoa
+extension NSImage: HTMLFetchableContent {
+    public typealias ContentType = NSImage
+    public static func instanceFromData(_ data: Data) -> Result<ContentType> {
+        if let image = NSImage(data: data) {
+            return Result.success(image)
         }
+        return Result.error(.transformFailure)
     }
+}
 #endif
 
-extension Data : HTMLFetchableContent {
+extension Data: HTMLFetchableContent {
     public typealias ContentType = Data
     public static func instanceFromData(_ data: Data) -> Result<ContentType> {
         return Result.success(data)

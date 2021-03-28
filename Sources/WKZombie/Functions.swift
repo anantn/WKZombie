@@ -23,17 +23,18 @@
 
 import Foundation
 
-
 /**
  Convenience functions for accessing the WKZombie shared instance functionality.
  */
 
 //========================================
+
 // MARK: Get Page
+
 //========================================
 
 /**
- The returned WKZombie Action will load and return a HTML or JSON page for the specified URL 
+ The returned WKZombie Action will load and return a HTML or JSON page for the specified URL
  __using the shared WKZombie instance__.
  - seealso: _open()_ function in _WKZombie_ class for more info.
  */
@@ -42,7 +43,7 @@ public func open<T: Page>(_ url: URL) -> Action<T> {
 }
 
 /**
- The returned WKZombie Action will load and return a HTML or JSON page for the specified URL 
+ The returned WKZombie Action will load and return a HTML or JSON page for the specified URL
  __using the shared WKZombie instance__.
  - seealso: _open()_ function in _WKZombie_ class for more info.
  */
@@ -58,9 +59,10 @@ public func inspect<T: Page>() -> Action<T> {
     return WKZombie.sharedInstance.inspect()
 }
 
-
 //========================================
+
 // MARK: Submit Form
+
 //========================================
 
 /**
@@ -79,16 +81,17 @@ public func submit<T: Page>(then postAction: PostAction) -> (_ form: HTMLForm) -
     return WKZombie.sharedInstance.submit(then: postAction)
 }
 
-
 //========================================
+
 // MARK: Click Event
+
 //========================================
 
 /**
  Simulates the click of a HTML link __using the shared WKZombie instance__.
  - seealso: _click()_ function in _WKZombie_ class for more info.
  */
-public func click<T: Page>(_ link : HTMLLink) -> Action<T> {
+public func click<T: Page>(_ link: HTMLLink) -> Action<T> {
     return WKZombie.sharedInstance.click(link)
 }
 
@@ -96,7 +99,7 @@ public func click<T: Page>(_ link : HTMLLink) -> Action<T> {
  Simulates the click of a HTML link __using the shared WKZombie instance__.
  - seealso: _click()_ function in _WKZombie_ class for more info.
  */
-public func click<T: Page>(then postAction: PostAction) -> (_ link : HTMLLink) -> Action<T> {
+public func click<T: Page>(then postAction: PostAction) -> (_ link: HTMLLink) -> Action<T> {
     return WKZombie.sharedInstance.click(then: postAction)
 }
 
@@ -104,7 +107,7 @@ public func click<T: Page>(then postAction: PostAction) -> (_ link : HTMLLink) -
  Simulates HTMLButton press __using the shared WKZombie instance__.
  - seealso: _press()_ function in _WKZombie_ class for more info.
  */
-public func press<T: Page>(_ button : HTMLButton) -> Action<T> {
+public func press<T: Page>(_ button: HTMLButton) -> Action<T> {
     return WKZombie.sharedInstance.press(button)
 }
 
@@ -112,19 +115,21 @@ public func press<T: Page>(_ button : HTMLButton) -> Action<T> {
  Simulates HTMLButton press __using the shared WKZombie instance__.
  - seealso: _press()_ function in _WKZombie_ class for more info.
  */
-public func press<T: Page>(then postAction: PostAction) -> (_ button : HTMLButton) -> Action<T> {
+public func press<T: Page>(then postAction: PostAction) -> (_ button: HTMLButton) -> Action<T> {
     return WKZombie.sharedInstance.press(then: postAction)
 }
 
 //========================================
+
 // MARK: Swap Page Context
+
 //========================================
 
 /**
  The returned WKZombie Action will swap the current page context with the context of an embedded iframe.
  - seealso: _swap()_ function in _WKZombie_ class for more info.
  */
-public func swap<T: Page>(_ iframe : HTMLFrame) -> Action<T> {
+public func swap<T: Page>(_ iframe: HTMLFrame) -> Action<T> {
     return WKZombie.sharedInstance.swap(iframe)
 }
 
@@ -132,12 +137,14 @@ public func swap<T: Page>(_ iframe : HTMLFrame) -> Action<T> {
  The returned WKZombie Action will swap the current page context with the context of an embedded iframe.
  - seealso: _swap()_ function in _WKZombie_ class for more info.
  */
-public func swap<T: Page>(then postAction: PostAction) -> (_ iframe : HTMLFrame) -> Action<T> {
+public func swap<T: Page>(then postAction: PostAction) -> (_ iframe: HTMLFrame) -> Action<T> {
     return WKZombie.sharedInstance.swap(then: postAction)
 }
 
 //========================================
+
 // MARK: DOM Modification Methods
+
 //========================================
 
 /**
@@ -149,11 +156,11 @@ public func setAttribute<T: HTMLElement>(_ key: String, value: String?) -> (_ el
     return WKZombie.sharedInstance.setAttribute(key, value: value)
 }
 
-
 //========================================
+
 // MARK: Find Methods
-//========================================
 
+//========================================
 
 /**
  The returned WKZombie Action will search a page and return all elements matching the generic HTML element type and
@@ -173,11 +180,11 @@ public func get<T>(by searchType: SearchType<T>) -> (_ page: HTMLPage) -> Action
     return WKZombie.sharedInstance.get(by: searchType)
 }
 
-
 //========================================
+
 // MARK: JavaScript Methods
-//========================================
 
+//========================================
 
 /**
  The returned WKZombie Action will execute a JavaScript string __using the shared WKZombie instance__.
@@ -195,14 +202,14 @@ public func execute<T: HTMLPage>(_ script: JavaScript) -> (_ page: T) -> Action<
     return WKZombie.sharedInstance.execute(script)
 }
 
-
 //========================================
+
 // MARK: Fetch Actions
-//========================================
 
+//========================================
 
 /**
- The returned WKZombie Action will download the linked data of the passed HTMLFetchable object 
+ The returned WKZombie Action will download the linked data of the passed HTMLFetchable object
  __using the shared WKZombie instance__.
  - seealso: _fetch()_ function in _WKZombie_ class for more info.
  */
@@ -210,9 +217,10 @@ public func fetch<T: HTMLFetchable>(_ fetchable: T) -> Action<T> {
     return WKZombie.sharedInstance.fetch(fetchable)
 }
 
-
 //========================================
+
 // MARK: Transform Actions
+
 //========================================
 
 /**
@@ -233,9 +241,10 @@ public func map<T, A>(_ f: @escaping (T) -> A) -> (_ object: T) -> A {
 }
 
 //========================================
-// MARK: Advanced Actions
-//========================================
 
+// MARK: Advanced Actions
+
+//========================================
 
 /**
  Executes the specified action (with the result of the previous action execution as input parameter) until
@@ -257,11 +266,11 @@ public func batch<T, U>(_ f: @escaping (T) -> Action<U>) -> (_ elements: [T]) ->
     return WKZombie.sharedInstance.batch(f)
 }
 
-
 //========================================
+
 // MARK: JSON Actions
-//========================================
 
+//========================================
 
 /**
  The returned WKZombie Action will parse NSData and create a JSON object.
@@ -279,7 +288,7 @@ public func parse<T: JSON>(_ data: Data) -> Action<T> {
  __The shared WKZombie instance will be used__.
  - seealso: _decode()_ function in _WKZombie_ class for more info.
  */
-public func decode<T : JSONDecodable>(_ element: JSONParsable) -> Action<T> {
+public func decode<T: JSONDecodable>(_ element: JSONParsable) -> Action<T> {
     return WKZombie.sharedInstance.decode(element)
 }
 
@@ -290,64 +299,65 @@ public func decode<T : JSONDecodable>(_ element: JSONParsable) -> Action<T> {
  __The shared WKZombie instance will be used__.
  - seealso: _decode()_ function in _WKZombie_ class for more info.
  */
-public func decode<T : JSONDecodable>(_ array: JSONParsable) -> Action<[T]> {
+public func decode<T: JSONDecodable>(_ array: JSONParsable) -> Action<[T]> {
     return WKZombie.sharedInstance.decode(array)
 }
 
-
 #if os(iOS)
-    
-    //========================================
-    // MARK: Snapshot Methods
-    //========================================
-    
-    /**
-     This is a convenience operator for the _snap()_ command. It is equal to the __>>>__ operator with the difference
-     that a snapshot will be taken after the left Action has been finished.
-     */
-    infix operator >>*: AdditionPrecedence
-    
-    private func assertIfNotSharedInstance() {
-        assert(WKZombie.Static.instance != nil, "The >>* operator can only be used with the WKZombie shared instance.")
-    }
-    
-    public func >>*<T, U>(a: Action<T>, f: @escaping ((T) -> Action<U>)) -> Action<U> {
-        assertIfNotSharedInstance()
-        return a >>> snap >>> f
-    }
-    
-    public func >>*<T, U>(a: Action<T>, b: Action<U>) -> Action<U> {
-        assertIfNotSharedInstance()
-        return a >>> snap >>> b
-    }
-    
-    public func >>*<T, U: Page>(a: Action<T>, f: () -> Action<U>) -> Action<U> {
-        assertIfNotSharedInstance()
-        return a >>> snap >>> f
-    }
-    
-    public func >>*<T:Page, U>(a: () -> Action<T>, f: @escaping ((T) -> Action<U>)) -> Action<U> {
-        assertIfNotSharedInstance()
-        return a >>> snap >>> f
-    }
-    
-    /**
-     The returned WKZombie Action will make a snapshot of the current page.
-     Note: This method only works under iOS. Also, a snapshotHandler must be registered.
-     __The shared WKZombie instance will be used__.
-     - seealso: _snap()_ function in _WKZombie_ class for more info.
-     */
-    public func snap<T>(_ element: T) -> Action<T> {
-        return WKZombie.sharedInstance.snap(element)
-    }
-    
+
+//========================================
+
+// MARK: Snapshot Methods
+
+//========================================
+
+/**
+ This is a convenience operator for the _snap()_ command. It is equal to the __>>>__ operator with the difference
+ that a snapshot will be taken after the left Action has been finished.
+ */
+infix operator >>*: AdditionPrecedence
+
+private func assertIfNotSharedInstance() {
+    assert(WKZombie.Static.instance != nil, "The >>* operator can only be used with the WKZombie shared instance.")
+}
+
+public func >>* <T, U>(a: Action<T>, f: @escaping ((T) -> Action<U>)) -> Action<U> {
+    assertIfNotSharedInstance()
+    return a >>> snap >>> f
+}
+
+public func >>* <T, U>(a: Action<T>, b: Action<U>) -> Action<U> {
+    assertIfNotSharedInstance()
+    return a >>> snap >>> b
+}
+
+public func >>* <T, U: Page>(a: Action<T>, f: () -> Action<U>) -> Action<U> {
+    assertIfNotSharedInstance()
+    return a >>> snap >>> f
+}
+
+public func >>* <T: Page, U>(a: () -> Action<T>, f: @escaping ((T) -> Action<U>)) -> Action<U> {
+    assertIfNotSharedInstance()
+    return a >>> snap >>> f
+}
+
+/**
+ The returned WKZombie Action will make a snapshot of the current page.
+ Note: This method only works under iOS. Also, a snapshotHandler must be registered.
+ __The shared WKZombie instance will be used__.
+ - seealso: _snap()_ function in _WKZombie_ class for more info.
+ */
+public func snap<T>(_ element: T) -> Action<T> {
+    return WKZombie.sharedInstance.snap(element)
+}
+
 #endif
 
-
 //========================================
+
 // MARK: Debug Methods
-//========================================
 
+//========================================
 
 /**
  Prints the current state of the WKZombie browser to the console.
@@ -363,4 +373,3 @@ public func dump() {
 public func clearCache() {
     WKZombie.sharedInstance.clearCache()
 }
-

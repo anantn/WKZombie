@@ -24,54 +24,56 @@
 import Foundation
 
 /// HTML Link class, which represents the "a" element in the DOM.
-public class HTMLLink : HTMLRedirectable, HTMLFetchable {
-    
+public class HTMLLink: HTMLRedirectable, HTMLFetchable {
     /// Returns the value of the href attribute of the link.
-    public var href : String? {
+    public var href: String? {
         return objectForKey("href")
     }
-    
+
     /// Returns the link text.
-    public var linkText : String? {
+    public var linkText: String? {
         return text
     }
-    
-    public var description : String {
+
+    public var description: String {
         return href ?? ""
     }
-    
+
     //========================================
+
     // MARK: Link Click Script
+
     //========================================
-    
-    internal override func actionScript() -> String? {
+
+    override internal func actionScript() -> String? {
         if let onClick = super.actionScript() {
             return onClick
         } else if let href = href {
-           return "window.location.href='\(href)';"
+            return "window.location.href='\(href)';"
         }
         return nil
     }
-    
+
     //========================================
+
     // MARK: HTMLFetchable Protocol
+
     //========================================
-    
-    public var fetchURL : URL? {
+
+    public var fetchURL: URL? {
         if let href = objectForKey("href") {
             return URL(string: href)
         }
         return nil
     }
-    
+
     //========================================
+
     // MARK: Overrides
+
     //========================================
-    
+
     internal class func createXPathQuery(_ parameters: String) -> String {
         return "//a\(parameters)/@href"
     }
 }
-
-
-    

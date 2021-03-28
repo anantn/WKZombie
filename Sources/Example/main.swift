@@ -21,7 +21,7 @@ func handleSuccess(result: [HTMLTableRow]?) {
     print("\n")
     print("PROVISIONING PROFILES:")
     print("======================")
-    
+
     if let columns = result?.compactMap({ $0.columns?.first }) {
         for column in columns {
             if let element = column.children()?.first as HTMLElement?, let text = element.text {
@@ -38,18 +38,18 @@ func handleError(error: ActionError) {
 }
 
 // WKZombie Actions
-    open(url)
->>> get(by: .id("accountname"))
->>> setAttribute("value", value: user)
->>> get(by: .id("accountpassword"))
->>> setAttribute("value", value: password)
->>> get(by: .name("form2"))
->>> submit(then: .wait(2.0))
->>> get(by: .contains("href", "/account/"))
->>> click(then: .wait(2.5))
->>> getAll(by: .contains("class", "row-"))
-=== handleResult
+open(url)
+    >>> get(by: .id("accountname"))
+    >>> setAttribute("value", value: user)
+    >>> get(by: .id("accountpassword"))
+    >>> setAttribute("value", value: password)
+    >>> get(by: .name("form2"))
+    >>> submit(then: .wait(2.0))
+    >>> get(by: .contains("href", "/account/"))
+    >>> click(then: .wait(2.5))
+    >>> getAll(by: .contains("class", "row-"))
+    === handleResult
 
 // Keep script running until actions are finished
 let theRL = RunLoop.current
-while shouldKeepRunning && theRL.run(mode: .default, before: .distantFuture) { }
+while shouldKeepRunning && theRL.run(mode: .default, before: .distantFuture) {}

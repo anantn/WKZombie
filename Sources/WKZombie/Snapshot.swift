@@ -29,20 +29,19 @@ import Cocoa
 public typealias SnapshotImage = NSImage
 #endif
 
-
 /// WKZombie Snapshot Helper Class
 public class Snapshot {
-    public let page : URL?
-    public let file : URL
-    public lazy var image : SnapshotImage? = {
+    public let page: URL?
+    public let file: URL
+    public lazy var image: SnapshotImage? = {
         let path = self.file.path
         #if os(iOS)
-            return UIImage(contentsOfFile: path)
+        return UIImage(contentsOfFile: path)
         #elseif os(OSX)
-            return NSImage(contentsOfFile: path)
+        return NSImage(contentsOfFile: path)
         #endif
     }()
-    
+
     internal init?(data: Data, page: URL? = nil) {
         do {
             self.file = try Snapshot.store(data)
@@ -52,32 +51,32 @@ public class Snapshot {
             return nil
         }
     }
-    
+
     fileprivate static func store(_ data: Data) throws -> URL {
         let identifier = ProcessInfo.processInfo.globallyUniqueString
-        
+
         let fileName = String(format: "wkzombie-snapshot-%@", identifier)
         let fileURL = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(fileName)
-        
+
         try data.write(to: fileURL, options: .atomicWrite)
-        
+
         return fileURL
     }
-    
+
     /**
      Moves the snapshot file into the specified directory.
-     
+
      - parameter directory: A Directory URL.
-     
+
      - throws: Exception if the moving operation fails.
-     
+
      - returns: The URL with the new file location.
      */
     public func moveTo(_ directory: URL) throws -> URL? {
         let fileManager = FileManager.default
-        let fileName = file.lastPathComponent
+        let fileName = self.file.lastPathComponent
         let destination = directory.appendingPathComponent(fileName)
-        try fileManager.moveItem(at: file, to: destination)
+        try fileManager.moveItem(at: self.file, to: destination)
         return destination
     }
 }

@@ -9,12 +9,13 @@
 import Foundation
 
 /// Base class for redirectable HTML elements (e.g. HTMLLink, HTMLButton).
-public class HTMLRedirectable : HTMLParserElement {
-    
+public class HTMLRedirectable: HTMLParserElement {
     //========================================
+
     // MARK: Link Redirectable Script
+
     //========================================
-    
+
     internal func actionScript() -> String? {
         if let onClick = objectForKey("onclick") {
             return onClick

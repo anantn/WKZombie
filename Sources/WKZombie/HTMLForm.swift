@@ -24,51 +24,51 @@
 import Fuzi
 
 /// HTML Form class, which represents the <form> element in the DOM.
-public class HTMLForm : HTMLParserElement {
-
+public class HTMLForm: HTMLParserElement {
     /// All inputs fields (keys and values) of this form.
-    public fileprivate(set) var inputElements = [String : String]()
-    
+    public fileprivate(set) var inputElements = [String: String]()
+
+    public required convenience init(element: XMLElement) {
+        self.init(element: element, XPathQuery: nil)
+    }
+
     public required init(element: XMLElement, XPathQuery: String?) {
         super.init(element: element, XPathQuery: XPathQuery)
-        retrieveAllInputs(HTMLParserElement(element: element, XPathQuery: XPathQuery))
+        self.retrieveAllInputs(HTMLParserElement(element: element, XPathQuery: XPathQuery))
     }
-    
-    public required init(element: XMLElement) {
-        super.init(element: element)
-        retrieveAllInputs(HTMLParserElement(element: element, XPathQuery: XPathQuery))
-    }
-    
+
     /// Returns the value for the name attribute.
-    public var name : String? {
+    public var name: String? {
         return objectForKey("name")
     }
-    
+
     /// Returns the value for the id attribute.
-    public var id : String? {
+    public var id: String? {
         return objectForKey("id")
     }
-    
+
     /// Returns the value for the action attribute.
-    public var action : String? {
+    public var action: String? {
         return objectForKey("action")
     }
-    
+
     /**
      Enables subscripting for modifying the input field values.
-     
+
      - parameter input: The Input field attribute name.
-     
+
      - returns: The Input field attribute value.
      */
     public subscript(key: String) -> String? {
-        return inputElements[key]
+        return self.inputElements[key]
     }
-    
+
     //========================================
+
     // MARK: Form Submit Script
+
     //========================================
-    
+
     internal func actionScript() -> String? {
         if let name = name {
             return "document.\(name).submit();"
@@ -77,28 +77,32 @@ public class HTMLForm : HTMLParserElement {
         }
         return nil
     }
-    
+
     //========================================
+
     // MARK: Overrides
+
     //========================================
-    
+
     internal class func createXPathQuery(_ parameters: String) -> String {
         return "//form\(parameters)"
     }
-    
+
     //========================================
+
     // MARK: Private Methods
+
     //========================================
-    
-    fileprivate func retrieveAllInputs(_ element: HTMLParserElement) {
+
+    fileprivate func retrieveAllInputs(_ element: HTMLElement) {
         if let tagName = element.tagName, tagName == "input" {
             if let name = element.objectForKey("name") {
-                inputElements[name] = element.objectForKey("value")
+                self.inputElements[name] = element.objectForKey("value")
             }
         }
-        if let children = element.children() , children.count > 0 {
+        if let children = element.children(), children.count > 0 {
             for child in children {
-                retrieveAllInputs(child)
+                self.retrieveAllInputs(child)
             }
         }
     }

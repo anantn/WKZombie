@@ -25,11 +25,10 @@ import Foundation
 
 /// WKZombie Console Logger
 public class Logger {
-    
-    public static var enabled : Bool = true
-    
+    public static var enabled: Bool = true
+
     public class func log(_ message: String, lineBreak: Bool = true) {
-        if enabled {
+        if self.enabled {
             if lineBreak {
                 print("\(message)")
             } else {

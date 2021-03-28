@@ -29,9 +29,9 @@ import Foundation
 public protocol JSONDecodable {
     /**
      Returns the decoded JSON data represented as an model object.
-     
+
      - parameter json: The JSON data.
-     
+
      - returns: The model object.
      */
     static func decode(_ json: JSONElement) -> Self?
@@ -43,22 +43,20 @@ public protocol JSONDecodable {
 public protocol JSONParsable {
     /**
      Returns the parsable JSON data.
-     
+
      - returns: The JSON data.
      */
     func content() -> JSON?
 }
 
-
 /// JSONPage class, which represents the entire JSON document.
-public class JSONPage : JSONParser, Page, JSONParsable {
-    
+public class JSONPage: JSONParser, Page, JSONParsable {
     /**
      Returns a JSON page instance for the specified JSON data.
-     
+
      - parameter data: The JSON data.
      - parameter url:  The URL of the page.
-     
+
      - returns: A JSON page.
      */
     public static func pageWithData(_ data: Data?, url: URL?) -> Page? {
